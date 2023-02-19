@@ -1,0 +1,8 @@
+syntax = "proto3";
+
+package xcm;
+
+message Weight {
+    uint64 ref_time = 1;
+    uint64 proof_zie = 2;
+}
