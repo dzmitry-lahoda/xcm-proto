@@ -5,3 +5,5 @@ package xcm;
 message MultiLocation {
 
 }
+
+message InteriorMultiLocation {}

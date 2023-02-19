@@ -1,0 +1,139 @@
+syntax = "proto3";
+
+package xcm;
+
+import "assets.proto";
+import "sp.proto";
+import "location.proto";
+
+import "google/protobuf/any.proto";
+
+message WithdrawAssetInstruction {
+    MultiAssets assets = 1;
+}
+
+message ReserveAssetDepositedInstruction {
+    MultiAssets assets = 1;
+}
+
+message ReceiveTeleportedAssetInstruction {
+    MultiAssets assets = 1;
+}
+
+message QueryResponseInstruction {
+    uint32 query_id = 1;
+    Response response = 2;
+    Weight weight = 3;   
+}
+
+
+message Null {}
+message Response {
+    oneof response {
+        Null null = 1;
+        AssetsResponse assets = 2;
+        ExecutionResultResponse execution_result = 3;
+        VersionResponse version = 4;
+    }
+}
+
+message AssetsResponse  {
+    MultiAssets assets = 1;
+}
+
+message Ok{}
+
+message ExecutionResultResponse {
+    oneof result {
+        Ok ok = 1;
+        Error error = 2;
+    }
+}
+
+enum Error {
+    SA =0;
+}
+
+message ErrorRegister {
+    uint32 index = 1;
+    Error error = 2;
+}
+
+message VersionResponse { 
+  uint32 version = 1; 
+}
+
+message TransferAssetInstruction {
+    MultiAssetFilter assets = 1;
+    MultiLocation beneficiary = 2;    
+}
+
+message Xcm {
+    repeated Instruction instructions = 1;
+}
+
+enum OriginKind {
+    Todo = 0;
+}
+
+message Call {
+    bytes call = 1;
+}
+
+message TransactInstruction {
+    OriginKind origin_type = 1;
+    Weight max_weight = 2;
+    Call call = 3;
+}
+
+
+message TransferReserveAssetInstruction {
+    MultiAsset assets = 1;
+    MultiLocation destination = 2; 
+    Xcm xcm = 3;
+}
+
+message HrmpNewChannelOpenRequest {}
+message HrmpChannelAccepted {}
+message HrmpChannelClosing {}
+
+
+message ClearOrigin{}
+message DescendOrigin {}
+
+message ExecutionOutcome {
+
+}
+message ReportErrorInstruction    {
+uint32 query_id = 1;
+MultiLocation destination = 2; 
+Weight max_response_weight = 3;
+}
+
+message DepositAssetInstruction {
+    MultiAssetFilter assets = 1;
+    uint32 max_assets = 2; 
+    MultiLocation beneficiary = 3; 
+}
+
+
+message Instruction {
+    oneof instruction {
+        WithdrawAssetInstruction withdraw_asset = 1;
+        ReserveAssetDepositedInstruction reserve_asset_deposited = 2;
+        ReceiveTeleportedAssetInstruction receive_teleported_asset = 3;
+        QueryResponseInstruction query_response = 4;
+        TransferAssetInstruction transfer_asset = 5;
+        TransferReserveAssetInstruction transfer_reserve_asset = 6;
+        TransactInstruction transact = 7;
+        HrmpNewChannelOpenRequest hrmp_new_channel_open_request = 8;
+        HrmpChannelAccepted hrmp_channel_accepted = 9;
+        HrmpChannelClosing hrmp_channel_closing = 10;
+        ClearOrigin clear_origin = 11;
+        DescendOrigin descend_origin = 12;
+        ReportErrorInstruction report_error = 13;
+        DepositAssetInstruction deposit_asset = 14;
+        
+    }
+    // 28
+}

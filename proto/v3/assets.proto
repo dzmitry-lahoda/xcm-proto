@@ -3,5 +3,9 @@ syntax = "proto3";
 package xcm;
 
 message MultiAssets {
-    
+
+}
+
+message MultiAssetFilter {
+
 }
